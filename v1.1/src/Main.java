@@ -29,7 +29,7 @@ public class Main {
 //            System.out.println("table created");
 //            stmt.executeUpdate("insert into stud2 values('AA',1,'Ganesh',99,'M','Open','B','swarg');");
 //            System.out.println("value inserted");
-//
+//sss
 //            stmt.executeUpdate("insert into stud2 values('CC',7,'Shree',99,'M','OPEN','B','swarg')");
 //
 //            stmt.executeUpdate("insert into stud2 values('CC',5,'Vinayak',99,'M','OPEN','B','swarg')");
