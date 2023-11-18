@@ -1,13 +1,21 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.util.regex.*;
 
 public class SignUpRegister {
     Connection conn;
+    Statement stmt;
+
+    Scanner sc = new Scanner(System.in);
     void chooseOption(Connection conn) throws SQLException {
         this.conn = conn;
         int opt,entity;
         String EntityName = new String("");
-
+        try {
+            stmt = conn.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         while(true){
             System.out.println("Sign Up / Registration Menu:\n\t1. Sign Up\n\t2. Register\n\t3. Exit\nChoose:");
             Scanner sc = new Scanner(System.in);
@@ -29,7 +37,7 @@ public class SignUpRegister {
                         System.out.println("Invalid input try again !!!");
                     }
                     else{
-                        EntityName = (opt==1)?"Hotel":(opt==2)?"Trust":"Dilevary";
+                        EntityName = (entity==1)?"Hotel":(entity==2)?"Trust":"Dilevary";
                         break;
                     }
                 }
@@ -48,27 +56,138 @@ public class SignUpRegister {
         }
     }
     void signUp(String EntityName){
+        String UserName,password;
+        System.out.println("Welcome to log in page.");
+        outerloop:
+        while(true) {
+            System.out.print("Enter username: ");
+            UserName = sc.nextLine();
+            if (UserName.isEmpty()){
+                System.out.println("Enter valid username again." );
+                continue;
+            }
+            System.out.print("Enter password: ");
+            password = sc.nextLine();
 
+            try {
+                ResultSet R=stmt.executeQuery("SELECT "+EntityName+"Password FROM "+EntityName+" where "+EntityName+"UserName=\""+UserName+"\"");
+                try {
+                    while (R.next()) {
+                        String passwordT= R.getString(1);
+                        if (password.equals(passwordT)){
+                            System.out.println("Logged in successfully.");
+                            break outerloop;
+                        }
+                    }
+                    System.out.println("Invalid username or password.\nEnter valid username and password again.");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        System.out.println("Directing to corresponding pages.");
+        switch (EntityName){
+            case "Hotel":
+
+                break;
+            case "Trust":
+
+                break;
+            case "Dilevary":
+
+                break;
+        }
     }
-    void registration(String EntityName) {
+    void registration(String EntityName) throws SQLException {
 
-        int ID;
-        String UserName = new String(" ");
-        String mail = new String(" ");
-        String password = new String(" ");
-        String Address = new String(" ");
-        String city = new String(" ");
+        int ID = 1;
+        String UserName,Name,mail,password,Address,city,contactT;
         long contact;
 
 
         System.out.println("Welcome to new registration.");
-        System.out.println("Enter username");
+        while(true){
+            System.out.print("Enter name of "+EntityName+": ");
+            Name = sc.nextLine();
+            if (Name.isEmpty()){
+                System.out.println("Enter valid username again." );
+            }else {
+                break;
+            }
+        }
+        while(true){
+            System.out.print("Enter username: ");
+            UserName = sc.nextLine();
+            if (UserName.isEmpty()){
+                System.out.println("Enter valid username again." );
+            }else {
+                break;
+            }
+        }
+        while(true) {
+            System.out.print("Enter mail address: ");
+            mail = sc.nextLine();
+            String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(mail);
 
+            if (!matcher.matches()) {
+                System.out.println("Enter valid mail address again.");
+            } else {
+                break;
+            }
+        }
+        while(true) {
+            System.out.print("Enter password: ");
+            password = sc.nextLine();
+            String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(password);
+
+            if (!matcher.matches()) {
+                System.out.println("Enter valid password again.");
+            } else {
+                break;
+            }
+        }
+        while(true){
+            System.out.print("Enter address: ");
+            Address = sc.nextLine();
+            if (Address.isEmpty()){
+                System.out.println("Enter valid address again." );
+            }else {
+                break;
+            }
+        }
+        while(true){
+            System.out.print("Enter city: ");
+            city = sc.nextLine();
+            if (city.isEmpty()){
+                System.out.println("Enter valid city again." );
+            }else {
+                break;
+            }
+        }
+        while(true){
+            System.out.print("Enter contact number : ");
+            contactT = sc.nextLine();
+            String regex = "(0/91)?[6-9][0-9]{9}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(contactT);
+            if (!matcher.matches()){
+                System.out.println("Enter valid contact number again." );
+            }else {
+                contact = Long.parseLong(contactT);
+                break;
+            }
+        }
 
 //      Fetiching last hotel id and incrementing it by 1 to add new entry.
         try {
-            Statement stmt = conn.createStatement();
-            ResultSet R = stmt.executeQuery("select HotelID from Hotel ORDER BY HotelID DESC LIMIT 1");
+
+            ResultSet R = stmt.executeQuery("select "+EntityName+"ID from "+EntityName+" ORDER BY "+EntityName+"ID DESC LIMIT 1");
             try {
                 while (R.next()) {
                     ID = R.getInt(1) + 1;
@@ -79,5 +198,11 @@ public class SignUpRegister {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        //add data in table
+        stmt.executeUpdate("insert into "+EntityName+" values("+ID+",'"+Name+"','"+UserName+"','"+mail+"','"+password+"','"+Address+"','"+city+"',"+contact+");");
+
+        System.out.println("You registation is successfully completed.\nYou can log in now.");
+        signUp(EntityName);
     }
 }

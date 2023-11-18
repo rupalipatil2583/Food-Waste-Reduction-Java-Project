@@ -1,8 +1,8 @@
 import java.sql.*;
 
 public class DatabaseConnection {
-    public Connection connectDatabase(){
-        System.out.println("'connectDatabase' function called.\nDatabase connection is initiated.");
+    Connection DatabaseConnection() {
+        System.out.println("Database connection is initiated.");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -12,13 +12,13 @@ public class DatabaseConnection {
         try {
             conn = DriverManager.getConnection(
                     "jdbc:mysql://aws.connect.psdb.cloud/food-storage?sslMode=VERIFY_IDENTITY",
-                    "074nlu6zlor400of7hko",
-                    "pscale_pw_rSofrsvn346jO2fAfONQaMLEltMcxH8IfAQFBwgPZs2");
+                    "u8w1yriboprsqnjsqe2o",
+                    "pscale_pw_xZ2shSUTsCF70kBJIyJ0l21LCqRvOt72ZXangjDN43J");
 
             System.out.println("Database is connected succesfully.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return conn;
+        return conn;/*Returning connection object foe further calling*/
     }
 }
