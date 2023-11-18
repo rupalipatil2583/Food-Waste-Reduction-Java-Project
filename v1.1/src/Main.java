@@ -8,8 +8,8 @@ public class Main {
         Connection conn = D.DatabaseConnection();
 
         /*Signing and registration page*/
-        SignUpRegister S = new SignUpRegister();
-        S.chooseOption(conn);
+        SignUpRegister S = new SignUpRegister(conn);
+        S.chooseOption();
 
         /*This is a temporary codes which can be used while testing the queries. You can comment out the SignUpRegister class and object so that you can test queries without signing up.*/
 

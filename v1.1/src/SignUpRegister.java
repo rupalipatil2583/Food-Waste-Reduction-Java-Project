@@ -6,16 +6,20 @@ public class SignUpRegister {
     Connection conn;
     Statement stmt;
 
-    Scanner sc = new Scanner(System.in);
-    void chooseOption(Connection conn) throws SQLException {
+    SignUpRegister(Connection conn){
         this.conn = conn;
-        int opt,entity;
-        String EntityName = new String("");
         try {
             stmt = conn.createStatement();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    Scanner sc = new Scanner(System.in);
+    void chooseOption() throws SQLException {
+
+        int opt,entity;
+        String EntityName = new String("");
+
         while(true){
             System.out.println("Sign Up / Registration Menu:\n\t1. Sign Up\n\t2. Register\n\t3. Exit\nChoose:");
             Scanner sc = new Scanner(System.in);
@@ -90,13 +94,16 @@ public class SignUpRegister {
         System.out.println("Directing to corresponding pages.");
         switch (EntityName){
             case "Hotel":
-
+                Hotel H = new Hotel();
+                H.chooseOptioin(conn);
                 break;
             case "Trust":
-
+                Trust T = new Trust();
+                T.chooseOptioin(conn);
                 break;
             case "Dilevary":
-
+                Dilevary D = new Dilevary();
+                D.chooseOptioin(conn);
                 break;
         }
     }
