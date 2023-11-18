@@ -12,8 +12,8 @@ public class DatabaseConnection {
         try {
             conn = DriverManager.getConnection(
                     "jdbc:mysql://aws.connect.psdb.cloud/food-storage?sslMode=VERIFY_IDENTITY",
-                    "u8w1yriboprsqnjsqe2o",
-                    "pscale_pw_xZ2shSUTsCF70kBJIyJ0l21LCqRvOt72ZXangjDN43J");
+                    "u5awj3eixfqe37dawz3u",
+                    "pscale_pw_DhiKnWLFSwi0pqw3oy2BYNvQ7A4rfCenm4Ut2ONbnxr");
 
             System.out.println("Database is connected succesfully.");
         } catch (SQLException e) {
