@@ -5,10 +5,10 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         /*Database connection object.*/
         DatabaseConnection D = new DatabaseConnection();
-        Connection conn = D.DatabaseConnection();
+        Statement stmt = D.DatabaseConnection();
 
         /*Signing and registration page*/
-        SignUpRegister S = new SignUpRegister(conn);
+        SignUpRegister S = new SignUpRegister(stmt);
         S.chooseOption();
 
         /*This is a temporary codes which can be used while testing the queries. You can comment out the SignUpRegister class and object so that you can test queries without signing up.*/

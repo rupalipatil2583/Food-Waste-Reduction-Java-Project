@@ -3,16 +3,10 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 public class SignUpRegister {
-    Connection conn;
     Statement stmt;
 
-    SignUpRegister(Connection conn){
-        this.conn = conn;
-        try {
-            stmt = conn.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    SignUpRegister(Statement stmt){
+        this.stmt = stmt;
     }
     Scanner sc = new Scanner(System.in);
     void chooseOption() throws SQLException {
@@ -95,15 +89,15 @@ public class SignUpRegister {
         switch (EntityName){
             case "Hotel":
                 Hotel H = new Hotel();
-                H.chooseOptioin(conn);
+                H.chooseOption(stmt);
                 break;
             case "Trust":
                 Trust T = new Trust();
-                T.chooseOptioin(conn);
+                T.chooseOption(stmt);
                 break;
             case "Dilevary":
                 Dilevary D = new Dilevary();
-                D.chooseOptioin(conn);
+                D.chooseOption(stmt);
                 break;
         }
     }
